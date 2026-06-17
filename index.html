@@ -4,11 +4,103 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gestão Axé Turismo e Aventura</title>
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <div id="root">
-    <h1>Gestão Axé Turismo e Aventura</h1>
-    <p>Sistema iniciado com sucesso.</p>
+  <div class="splash">
+    <div class="splash-box">
+      <img src="./assets/logo-axe.png" alt="Logo Axé Turismo" class="splash-logo">
+      <h1>Gestão Axé</h1>
+      <p>Turismo e Aventura</p>
+    </div>
+  </div>
+
+  <div class="app">
+    <header class="header">
+      <div class="header-title">
+        <img src="./assets/logo-axe.png" alt="Logo Axé Turismo" class="header-logo-img">
+        <div>
+          <h1>Gestão Axé Turismo</h1>
+          <p>Operacional • Vouchers • Financeiro</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <section id="inicio" class="screen active">
+        <div class="card alert">
+          <h2>🔔 Próxima operação</h2>
+          <p>Nenhuma operação próxima cadastrada ainda.</p>
+          <div class="actions">
+            <button>Ver lembrete</button>
+            <button class="secondary">Conferido</button>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="stat">
+            <strong>0</strong>
+            <span>Saídas hoje</span>
+          </div>
+          <div class="stat">
+            <strong>0</strong>
+            <span>Passageiros</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>💰 Financeiro rápido</h2>
+          <p>Resumo financeiro aparecerá aqui.</p>
+          <div class="actions">
+            <button>Abrir financeiro</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>🧾 Gastos recentes</h2>
+          <p>Nenhum gasto cadastrado ainda.</p>
+          <div class="actions">
+            <button>Abrir gastos</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="vouchers" class="screen">
+        <div class="card">
+          <h2>🎫 Vouchers</h2>
+          <p>Área de criação e consulta de vouchers.</p>
+        </div>
+      </section>
+
+      <section id="saidas" class="screen">
+        <div class="card">
+          <h2>📋 Saídas do dia</h2>
+          <p>Consulta das operações, passageiros, veículos e motoristas.</p>
+        </div>
+      </section>
+
+      <section id="financeiro" class="screen">
+        <div class="card">
+          <h2>💰 Financeiro</h2>
+          <p>Dashboard financeiro completo.</p>
+        </div>
+      </section>
+
+      <section id="mais" class="screen">
+        <div class="card">
+          <h2>☰ Mais opções</h2>
+          <p>Veículos, colaboradores, clientes, calendário, backup e configurações.</p>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-screen="inicio">🏠<br>Início</button>
+      <button class="nav-item" data-screen="vouchers">🎫<br>Voucher</button>
+      <button class="nav-item" data-screen="saidas">📋<br>Saídas</button>
+      <button class="nav-item" data-screen="financeiro">💰<br>Financeiro</button>
+      <button class="nav-item" data-screen="mais">☰<br>Mais</button>
+    </nav>
   </div>
 
   <script src="./app.js"></script>
