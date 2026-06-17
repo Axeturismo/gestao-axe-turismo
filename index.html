@@ -8,6 +8,22 @@
 </head>
 
 <body>
+  <div id="operationPopup" class="popup hidden">
+    <div class="popup-card">
+      <h2>🔔 Próxima operação</h2>
+      <p id="popupMessage"></p>
+      <button id="closePopup">Entendi</button>
+    </div>
+  </div>
+
+  <div id="previewModal" class="popup hidden">
+    <div class="popup-card preview-card">
+      <h2>👁 Prévia do Voucher</h2>
+      <div id="voucherPreview"></div>
+      <button id="closePreview">Fechar prévia</button>
+    </div>
+  </div>
+
   <div class="app">
     <header class="top-header">
       <img class="top-logo" src="./logo-axe.png" alt="Logo Axé Turismo">
@@ -19,26 +35,19 @@
 
     <main class="content">
 
-      <!-- INÍCIO -->
       <section id="inicio" class="screen active">
         <div id="operationAlert" class="card alert-card hidden">
           <h2>🔔 Próxima operação</h2>
           <p id="operationAlertText"></p>
-          <div class="actions">
+          <div class="actions vertical">
             <button>Ver operação</button>
-            <button class="ghost">Fechar</button>
+            <button id="closeOperationAlert" class="ghost">Fechar</button>
           </div>
         </div>
 
         <div class="grid-2">
-          <div class="stat-card">
-            <strong>0</strong>
-            <span>Saídas hoje</span>
-          </div>
-          <div class="stat-card">
-            <strong>0</strong>
-            <span>Passageiros</span>
-          </div>
+          <div class="stat-card"><strong>0</strong><span>Saídas hoje</span></div>
+          <div class="stat-card"><strong>0</strong><span>Passageiros</span></div>
         </div>
 
         <div class="card">
@@ -54,15 +63,13 @@
         </div>
       </section>
 
-      <!-- VOUCHER -->
       <section id="voucher" class="screen">
         <div class="page-title">
           <h2>🎫 Novo Voucher</h2>
-          <p>Monte o voucher por partes, sem bagunça.</p>
+          <p>Monte o voucher por etapas, de forma limpa e organizada.</p>
         </div>
 
         <form id="voucherForm">
-
           <div class="form-card">
             <h3>1. Cliente</h3>
 
@@ -72,8 +79,8 @@
             <label>CPF</label>
             <input type="text" id="clienteCpf" placeholder="Opcional">
 
-            <label>Contato / WhatsApp</label>
-            <input type="text" id="clienteContato" placeholder="Ex: (73) 99999-9999">
+            <label>Contato</label>
+            <input type="text" id="clienteContato" placeholder="WhatsApp do cliente">
 
             <label>Total de passageiros</label>
             <input type="number" id="totalPassageiros" min="1" value="1">
@@ -86,12 +93,51 @@
           </div>
 
           <div class="form-card">
-            <h3>2. Passeios contratados</h3>
-            <p class="muted">Nenhum passeio vem selecionado. Adicione apenas o que o cliente contratou.</p>
+            <h3>2. Passeios</h3>
+            <p class="muted">Adicione somente os passeios contratados.</p>
 
-            <button type="button" class="full-button" onclick="adicionarPasseio()">
-              ➕ Adicionar passeio
-            </button>
+            <button type="button" id="showPasseioForm" class="full-button">➕ Adicionar passeio</button>
+
+            <div id="passeioFormBox" class="mini-form hidden">
+              <label>Roteiro</label>
+              <select id="passeioNome">
+                <option value="">Selecione</option>
+                <option>Jeribucaçu</option>
+                <option>Trilha 4 Praias</option>
+                <option>Trilha da Prainha</option>
+                <option>Rafting</option>
+                <option>Cachoeira do Cleandro</option>
+                <option>City Tour Ilhéus</option>
+                <option>Fazenda Vila Rosa</option>
+                <option>Morro de São Paulo</option>
+                <option>Ilha de Boipeba</option>
+                <option>Passeio das Ilhas sem Taipu de Fora</option>
+                <option>Passeio das Ilhas com Taipu de Fora</option>
+              </select>
+
+              <label>Data</label>
+              <input type="date" id="passeioData">
+
+              <label>Horário</label>
+              <input type="time" id="passeioHorario">
+
+              <label>Passageiros</label>
+              <input type="number" id="passeioPassageiros" min="1" value="1">
+
+              <label>Pagamento</label>
+              <select id="passeioPagamento">
+                <option>Pix</option>
+                <option>Dinheiro</option>
+                <option>Cartão de débito</option>
+                <option>Cartão de crédito em até 12x</option>
+                <option>Pagamento individual</option>
+              </select>
+
+              <label>Detalhes do pagamento</label>
+              <textarea id="passeioDetalhes" placeholder="Ex: 2 no cartão, 1 no Pix"></textarea>
+
+              <button type="button" id="confirmPasseio">Adicionar à lista</button>
+            </div>
 
             <div id="listaPasseios" class="item-list">
               <p class="muted">Nenhum passeio adicionado ainda.</p>
@@ -102,9 +148,29 @@
             <h3>3. Translados</h3>
             <p class="muted">Adicione translado somente se houver.</p>
 
-            <button type="button" class="full-button" onclick="adicionarTranslado()">
-              ➕ Adicionar translado
-            </button>
+            <button type="button" id="showTransladoForm" class="full-button">➕ Adicionar translado</button>
+
+            <div id="transladoFormBox" class="mini-form hidden">
+              <label>Origem</label>
+              <input id="transladoOrigem" placeholder="Ex: Aeroporto de Ilhéus">
+
+              <label>Destino</label>
+              <input id="transladoDestino" placeholder="Ex: Pousada em Itacaré">
+
+              <label>Data</label>
+              <input type="date" id="transladoData">
+
+              <label>Horário</label>
+              <input type="time" id="transladoHorario">
+
+              <label>Voo</label>
+              <input id="transladoVoo" placeholder="Opcional">
+
+              <label>Valor</label>
+              <input type="number" id="transladoValor" placeholder="0,00">
+
+              <button type="button" id="confirmTranslado">Adicionar translado</button>
+            </div>
 
             <div id="listaTranslados" class="item-list">
               <p class="muted">Nenhum translado adicionado ainda.</p>
@@ -112,19 +178,7 @@
           </div>
 
           <div class="form-card">
-            <h3>4. Pagamento</h3>
-
-            <label>Forma de pagamento geral</label>
-            <select id="formaPagamento">
-              <option>Pix</option>
-              <option>Dinheiro</option>
-              <option>Cartão de débito</option>
-              <option>Cartão de crédito em até 12x</option>
-              <option>Pagamento individual</option>
-            </select>
-
-            <label>Detalhes do pagamento individual</label>
-            <textarea id="detalhesPagamento" placeholder="Ex: 2 passageiros no cartão, 1 no Pix, 1 no dinheiro"></textarea>
+            <h3>4. Pagamento geral</h3>
 
             <label>Status do pagamento</label>
             <select id="statusPagamento">
@@ -139,27 +193,22 @@
 
             <label>Saldo restante</label>
             <input type="number" id="saldoRestante" placeholder="0,00">
+
+            <label>Observações</label>
+            <textarea id="observacoesVoucher" placeholder="Opcional"></textarea>
           </div>
 
           <div class="form-card">
-            <h3>5. Observações</h3>
-            <textarea id="observacoesVoucher" placeholder="Observações opcionais. Só aparecerão no voucher se preenchidas."></textarea>
-          </div>
-
-          <div class="form-card">
-            <h3>6. Finalização</h3>
-
+            <h3>5. Finalização</h3>
             <div class="actions vertical">
-              <button type="button" onclick="visualizarVoucher()">👁 Prévia do voucher</button>
+              <button type="button" id="previewVoucherBtn">👁 Prévia do voucher</button>
               <button type="submit">💾 Salvar voucher</button>
               <button type="button" class="secondary">📄 Gerar PDF</button>
             </div>
           </div>
-
         </form>
       </section>
 
-      <!-- SAÍDAS -->
       <section id="saidas" class="screen">
         <div class="page-title">
           <h2>📋 Saídas do dia</h2>
@@ -175,7 +224,6 @@
         </div>
       </section>
 
-      <!-- FINANCEIRO -->
       <section id="financeiro" class="screen">
         <div class="page-title">
           <h2>💰 Financeiro</h2>
@@ -190,104 +238,30 @@
         </div>
       </section>
 
-      <!-- VEÍCULOS -->
-      <section id="veiculos" class="screen">
+      <section id="mais" class="screen">
         <div class="page-title">
-          <h2>🚗 Veículos</h2>
-          <p>Cadastro e controle de vagas dos veículos.</p>
+          <h2>☰ Mais opções</h2>
+          <p>Acesse cadastros, clientes, gastos e configurações.</p>
         </div>
 
-        <div class="form-card">
-          <label>Nome do veículo</label>
-          <input placeholder="Ex: Spin branca">
-
-          <label>Tipo</label>
-          <select>
-            <option>Van</option>
-            <option>Carro pequeno</option>
-            <option>Carro médio</option>
-            <option>SUV</option>
-            <option>4x4</option>
-            <option>Micro-ônibus</option>
-            <option>Outro</option>
-          </select>
-
-          <label>Placa</label>
-          <input placeholder="Placa do veículo">
-
-          <label>Vagas disponíveis</label>
-          <input type="number" min="1">
-
-          <button>Salvar veículo</button>
+        <div class="menu-grid">
+          <button data-screen-go="veiculos">🚗 Veículos</button>
+          <button data-screen-go="colaboradores">👥 Colaboradores</button>
+          <button data-screen-go="clientes">👤 Clientes</button>
+          <button data-screen-go="gastos">🧾 Gastos</button>
+          <button data-screen-go="configuracoes">⚙️ Configurações</button>
         </div>
       </section>
 
-      <!-- COLABORADORES -->
-      <section id="colaboradores" class="screen">
-        <div class="page-title">
-          <h2>👥 Colaboradores</h2>
-          <p>Motoristas, guias, atendentes e parceiros.</p>
-        </div>
+      <section id="veiculos" class="screen"><div class="page-title"><h2>🚗 Veículos</h2><p>Cadastro e controle de vagas.</p></div><div class="form-card"><label>Nome</label><input><label>Tipo</label><select><option>Van</option><option>Carro pequeno</option><option>Carro médio</option><option>SUV</option><option>4x4</option><option>Micro-ônibus</option></select><label>Placa</label><input><label>Vagas</label><input type="number"><button>Salvar veículo</button></div></section>
 
-        <div class="form-card">
-          <label>Nome</label>
-          <input placeholder="Nome do colaborador">
+      <section id="colaboradores" class="screen"><div class="page-title"><h2>👥 Colaboradores</h2><p>Motoristas, guias e parceiros.</p></div><div class="form-card"><label>Nome</label><input><label>Função</label><input><label>Telefone</label><input><button>Salvar colaborador</button></div></section>
 
-          <label>Função</label>
-          <input placeholder="Motorista, guia, atendente...">
+      <section id="clientes" class="screen"><div class="page-title"><h2>👤 Clientes</h2><p>Consulta por nome, CPF ou telefone.</p></div><div class="card"><input placeholder="Buscar cliente"><p class="muted">Nenhum cliente encontrado ainda.</p></div></section>
 
-          <label>Telefone</label>
-          <input placeholder="WhatsApp">
+      <section id="gastos" class="screen"><div class="page-title"><h2>🧾 Gastos</h2><p>Registro de despesas.</p></div><div class="form-card"><label>Descrição</label><input><label>Valor</label><input type="number"><label>Categoria</label><input><button>Salvar gasto</button></div></section>
 
-          <button>Salvar colaborador</button>
-        </div>
-      </section>
-
-      <!-- CLIENTES -->
-      <section id="clientes" class="screen">
-        <div class="page-title">
-          <h2>👤 Clientes</h2>
-          <p>Consulta por nome, CPF ou telefone.</p>
-        </div>
-
-        <div class="card">
-          <input placeholder="Buscar cliente">
-          <p class="muted">Nenhum cliente encontrado ainda.</p>
-        </div>
-      </section>
-
-      <!-- GASTOS -->
-      <section id="gastos" class="screen">
-        <div class="page-title">
-          <h2>🧾 Gastos</h2>
-          <p>Registro de despesas da operação.</p>
-        </div>
-
-        <div class="form-card">
-          <label>Descrição</label>
-          <input placeholder="Ex: combustível, lanche, manutenção">
-
-          <label>Valor</label>
-          <input type="number" placeholder="0,00">
-
-          <label>Categoria</label>
-          <input placeholder="Categoria do gasto">
-
-          <button>Salvar gasto</button>
-        </div>
-      </section>
-
-      <!-- CONFIGURAÇÕES -->
-      <section id="configuracoes" class="screen">
-        <div class="page-title">
-          <h2>⚙️ Configurações</h2>
-          <p>Empresa, roteiros, taxas e ajustes do sistema.</p>
-        </div>
-
-        <div class="card">
-          <p>Área reservada para configurações gerais.</p>
-        </div>
-      </section>
+      <section id="configuracoes" class="screen"><div class="page-title"><h2>⚙️ Configurações</h2><p>Empresa, roteiros, taxas e ajustes.</p></div><div class="card"><p>Área reservada para configurações gerais.</p></div></section>
 
     </main>
 
@@ -298,16 +272,8 @@
       <button class="nav-item" data-screen="financeiro">💰<span>Financeiro</span></button>
       <button class="nav-item" data-screen="mais">☰<span>Mais</span></button>
     </nav>
-
-    <div id="moreMenu" class="more-menu hidden">
-      <button data-screen-go="veiculos">🚗 Veículos</button>
-      <button data-screen-go="colaboradores">👥 Colaboradores</button>
-      <button data-screen-go="clientes">👤 Clientes</button>
-      <button data-screen-go="gastos">🧾 Gastos</button>
-      <button data-screen-go="configuracoes">⚙️ Configurações</button>
-    </div>
   </div>
 
   <script src="./app.js"></script>
 </body>
-</html>
+            </html>
