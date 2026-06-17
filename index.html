@@ -6,43 +6,42 @@
   <title>Gestão Axé Turismo e Aventura</title>
   <link rel="stylesheet" href="./style.css" />
 </head>
+
 <body>
   <div class="splash">
-    <div class="splash-box">
-      <img src="./assets/logo-axe.png" alt="Logo Axé Turismo" class="splash-logo">
-      <h1>Gestão Axé</h1>
-      <p>Turismo e Aventura</p>
-    </div>
+    <img class="splash-logo" src="./ChatGPT_Image_16_de_mar._de_2026_11_30_08-removebg-preview_20260509_173253_0000-1.png" alt="Logo Axé Turismo">
+    <h1>Gestão Axé</h1>
+    <p>Turismo e Aventura</p>
   </div>
 
   <div class="app">
-    <header class="header">
-      <div class="header-title">
-        <img src="./assets/logo-axe.png" alt="Logo Axé Turismo" class="header-logo-img">
-        <div>
-          <h1>Gestão Axé Turismo</h1>
-          <p>Operacional • Vouchers • Financeiro</p>
-        </div>
+    <header class="top-header">
+      <img class="top-logo" src="./ChatGPT_Image_16_de_mar._de_2026_11_30_08-removebg-preview_20260509_173253_0000-1.png" alt="Logo Axé Turismo">
+      <div>
+        <h1>Gestão Axé Turismo e Aventura</h1>
+        <p>Operacional • Vouchers • Financeiro</p>
       </div>
     </header>
 
-    <main class="main">
+    <main class="content">
+
       <section id="inicio" class="screen active">
-        <div class="card alert">
+        <div class="card alert-card">
           <h2>🔔 Próxima operação</h2>
           <p>Nenhuma operação próxima cadastrada ainda.</p>
           <div class="actions">
             <button>Ver lembrete</button>
             <button class="secondary">Conferido</button>
+            <button class="ghost">Fechar</button>
           </div>
         </div>
 
-        <div class="grid">
-          <div class="stat">
+        <div class="grid-2">
+          <div class="stat-card">
             <strong>0</strong>
             <span>Saídas hoje</span>
           </div>
-          <div class="stat">
+          <div class="stat-card">
             <strong>0</strong>
             <span>Passageiros</span>
           </div>
@@ -50,59 +49,238 @@
 
         <div class="card">
           <h2>💰 Financeiro rápido</h2>
-          <p>Resumo financeiro aparecerá aqui.</p>
-          <div class="actions">
-            <button>Abrir financeiro</button>
-          </div>
+          <p>Receitas, despesas e saldo aparecerão aqui.</p>
+          <button data-screen-go="financeiro">Abrir financeiro</button>
         </div>
 
         <div class="card">
           <h2>🧾 Gastos recentes</h2>
           <p>Nenhum gasto cadastrado ainda.</p>
-          <div class="actions">
-            <button>Abrir gastos</button>
-          </div>
+          <button data-screen-go="gastos">Abrir gastos</button>
         </div>
       </section>
 
-      <section id="vouchers" class="screen">
-        <div class="card">
-          <h2>🎫 Vouchers</h2>
-          <p>Área de criação e consulta de vouchers.</p>
+      <section id="voucher" class="screen">
+        <div class="page-title">
+          <h2>🎫 Novo Voucher</h2>
+          <p>Cadastro inicial do voucher da operação.</p>
         </div>
+
+        <form id="voucherForm" class="form-card">
+          <h3>Dados do cliente</h3>
+
+          <label>Nome do cliente</label>
+          <input type="text" id="clienteNome" placeholder="Ex: João Silva" required>
+
+          <label>CPF</label>
+          <input type="text" id="clienteCpf" placeholder="Opcional">
+
+          <label>Contato</label>
+          <input type="text" id="clienteContato" placeholder="WhatsApp do cliente">
+
+          <label>Total de passageiros</label>
+          <input type="number" id="totalPassageiros" min="1" value="1">
+
+          <label>Pousada ou endereço</label>
+          <input type="text" id="clienteEndereco" placeholder="Pousada, hotel ou endereço">
+
+          <label>Apartamento ou referência</label>
+          <input type="text" id="clienteReferencia" placeholder="Apto, quarto ou referência">
+
+          <h3>Passeio/Serviço contratado</h3>
+
+          <label>Roteiro</label>
+          <select id="roteiroSelecionado">
+            <option value="">Selecione um roteiro</option>
+            <option>Jeribucaçu</option>
+            <option>Trilha 4 Praias</option>
+            <option>Trilha da Prainha</option>
+            <option>Rafting</option>
+            <option>Cachoeira do Cleandro</option>
+            <option>City Tour Ilhéus</option>
+            <option>Fazenda Vila Rosa</option>
+            <option>Morro de São Paulo</option>
+            <option>Ilha de Boipeba</option>
+            <option>Passeio das Ilhas sem Taipu de Fora</option>
+            <option>Passeio das Ilhas com Taipu de Fora</option>
+          </select>
+
+          <label>Data do passeio</label>
+          <input type="date" id="dataPasseio">
+
+          <label>Forma de pagamento</label>
+          <select id="formaPagamento">
+            <option>Pix</option>
+            <option>Dinheiro</option>
+            <option>Cartão de débito</option>
+            <option>Cartão de crédito</option>
+            <option>Pagamento individual</option>
+          </select>
+
+          <label>Detalhes do pagamento individual</label>
+          <textarea id="detalhesPagamento" placeholder="Ex: 2 no cartão, 1 no Pix, 1 no dinheiro"></textarea>
+
+          <label>Status do pagamento</label>
+          <select id="statusPagamento">
+            <option value="agendamento_confirmado">Agendamento confirmado</option>
+            <option value="aguardando_pagamento">Aguardando pagamento</option>
+            <option value="pagamento_confirmado">Pagamento confirmado</option>
+            <option value="pagamento_parcial">Pagamento parcial</option>
+          </select>
+
+          <label>Valor pago</label>
+          <input type="number" id="valorPago" placeholder="0,00">
+
+          <label>Observações</label>
+          <textarea id="observacoesVoucher" placeholder="Observações opcionais"></textarea>
+
+          <div class="actions">
+            <button type="submit">Salvar voucher</button>
+            <button type="button" class="secondary">Gerar PDF</button>
+          </div>
+        </form>
       </section>
 
       <section id="saidas" class="screen">
-        <div class="card">
+        <div class="page-title">
           <h2>📋 Saídas do dia</h2>
-          <p>Consulta das operações, passageiros, veículos e motoristas.</p>
+          <p>Consulta de operações, passageiros, veículos e motoristas.</p>
+        </div>
+
+        <div class="card">
+          <button>Buscar saídas de hoje</button>
+          <button class="secondary">Enviar WhatsApp</button>
+          <button class="secondary">Gerar PDF</button>
         </div>
       </section>
 
       <section id="financeiro" class="screen">
-        <div class="card">
+        <div class="page-title">
           <h2>💰 Financeiro</h2>
           <p>Dashboard financeiro completo.</p>
         </div>
-      </section>
 
-      <section id="mais" class="screen">
-        <div class="card">
-          <h2>☰ Mais opções</h2>
-          <p>Veículos, colaboradores, clientes, calendário, backup e configurações.</p>
+        <div class="grid-2">
+          <div class="stat-card"><strong>R$ 0,00</strong><span>Receitas</span></div>
+          <div class="stat-card"><strong>R$ 0,00</strong><span>Despesas</span></div>
+          <div class="stat-card"><strong>R$ 0,00</strong><span>Saldo</span></div>
+          <div class="stat-card"><strong>R$ 0,00</strong><span>Pendente</span></div>
         </div>
       </section>
+
+      <section id="veiculos" class="screen">
+        <div class="page-title">
+          <h2>🚗 Veículos</h2>
+          <p>Cadastro e controle de vagas dos veículos.</p>
+        </div>
+
+        <div class="form-card">
+          <label>Nome do veículo</label>
+          <input placeholder="Ex: Spin branca">
+
+          <label>Tipo</label>
+          <select>
+            <option>Van</option>
+            <option>Carro pequeno</option>
+            <option>Carro médio</option>
+            <option>SUV</option>
+            <option>4x4</option>
+            <option>Micro-ônibus</option>
+            <option>Outro</option>
+          </select>
+
+          <label>Placa</label>
+          <input placeholder="Placa do veículo">
+
+          <label>Vagas disponíveis</label>
+          <input type="number" min="1">
+
+          <button>Salvar veículo</button>
+        </div>
+      </section>
+
+      <section id="colaboradores" class="screen">
+        <div class="page-title">
+          <h2>👥 Colaboradores</h2>
+          <p>Motoristas, guias, atendentes e parceiros.</p>
+        </div>
+
+        <div class="form-card">
+          <label>Nome</label>
+          <input placeholder="Nome do colaborador">
+
+          <label>Função</label>
+          <input placeholder="Motorista, guia, atendente...">
+
+          <label>Telefone</label>
+          <input placeholder="WhatsApp">
+
+          <button>Salvar colaborador</button>
+        </div>
+      </section>
+
+      <section id="clientes" class="screen">
+        <div class="page-title">
+          <h2>👤 Clientes</h2>
+          <p>Consulta por nome, CPF ou telefone.</p>
+        </div>
+
+        <div class="card">
+          <input placeholder="Buscar cliente">
+          <p class="muted">Nenhum cliente encontrado ainda.</p>
+        </div>
+      </section>
+
+      <section id="gastos" class="screen">
+        <div class="page-title">
+          <h2>🧾 Gastos</h2>
+          <p>Registro de despesas da operação.</p>
+        </div>
+
+        <div class="form-card">
+          <label>Descrição</label>
+          <input placeholder="Ex: combustível, lanche, manutenção">
+
+          <label>Valor</label>
+          <input type="number" placeholder="0,00">
+
+          <label>Categoria</label>
+          <input placeholder="Categoria do gasto">
+
+          <button>Salvar gasto</button>
+        </div>
+      </section>
+
+      <section id="configuracoes" class="screen">
+        <div class="page-title">
+          <h2>⚙️ Configurações</h2>
+          <p>Empresa, roteiros, taxas e ajustes do sistema.</p>
+        </div>
+
+        <div class="card">
+          <p>Área reservada para configurações gerais.</p>
+        </div>
+      </section>
+
     </main>
 
     <nav class="bottom-nav">
-      <button class="nav-item active" data-screen="inicio">🏠<br>Início</button>
-      <button class="nav-item" data-screen="vouchers">🎫<br>Voucher</button>
-      <button class="nav-item" data-screen="saidas">📋<br>Saídas</button>
-      <button class="nav-item" data-screen="financeiro">💰<br>Financeiro</button>
-      <button class="nav-item" data-screen="mais">☰<br>Mais</button>
+      <button class="nav-item active" data-screen="inicio">🏠<span>Início</span></button>
+      <button class="nav-item" data-screen="voucher">🎫<span>Voucher</span></button>
+      <button class="nav-item" data-screen="saidas">📋<span>Saídas</span></button>
+      <button class="nav-item" data-screen="financeiro">💰<span>Financeiro</span></button>
+      <button class="nav-item" data-screen="mais">☰<span>Mais</span></button>
     </nav>
+
+    <div id="moreMenu" class="more-menu hidden">
+      <button data-screen-go="veiculos">🚗 Veículos</button>
+      <button data-screen-go="colaboradores">👥 Colaboradores</button>
+      <button data-screen-go="clientes">👤 Clientes</button>
+      <button data-screen-go="gastos">🧾 Gastos</button>
+      <button data-screen-go="configuracoes">⚙️ Configurações</button>
+    </div>
   </div>
 
   <script src="./app.js"></script>
 </body>
-</html>
+          </html>
