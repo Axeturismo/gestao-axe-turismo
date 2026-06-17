@@ -1,291 +1,340 @@
-// Splash Screen
-setTimeout(() => {
-  const splash = document.querySelector(".splash");
+// ======================
+// NAVEGAÇÃO
+// ======================
 
-  if (splash) {
-    splash.style.opacity = "0";
-
-    setTimeout(() => {
-      splash.style.display = "none";
-    }, 500);
-  }
-}, 2000);
-
-// Navegação principal
-const navItems = document.querySelectorAll(".nav-item");
 const screens = document.querySelectorAll(".screen");
+const navButtons = document.querySelectorAll(".nav-item");
 
-function abrirTela(nomeTela) {
+function showScreen(screenId){
 
-  // Menu Mais
-  const menu = document.getElementById("moreMenu");
-  if (menu) menu.classList.add("hidden");
+    screens.forEach(screen=>{
+        screen.classList.remove("active");
+    });
 
-  screens.forEach(screen => {
-    screen.classList.remove("active");
-  });
+    const target = document.getElementById(screenId);
 
-  navItems.forEach(item => {
-    item.classList.remove("active");
-  });
-
-  const tela = document.getElementById(nomeTela);
-
-  if (tela) {
-    tela.classList.add("active");
-  }
-
-  document
-    .querySelector(`[data-screen="${nomeTela}"]`)
-    ?.classList.add("active");
-}
-
-navItems.forEach(item => {
-
-  item.addEventListener("click", () => {
-
-    const screen = item.dataset.screen;
-
-    if (screen === "mais") {
-
-      const menu = document.getElementById("moreMenu");
-
-      if (menu) {
-        menu.classList.toggle("hidden");
-      }
-
-      return;
+    if(target){
+        target.classList.add("active");
     }
 
-    abrirTela(screen);
+    navButtons.forEach(btn=>{
+        btn.classList.remove("active");
 
-  });
-
-});
-
-// Botões internos
-document.querySelectorAll("[data-screen-go]").forEach(botao => {
-
-  botao.addEventListener("click", () => {
-
-    const destino = botao.dataset.screenGo;
-
-    abrirTela(destino);
-
-  });
-
-});
-
-// ============================
-// ALERTA DE PRÓXIMA OPERAÇÃO
-// ============================
-
-const alertaOperacao = document.querySelector(".alert-card");
-
-if (alertaOperacao) {
-
-  const existeOperacao = false;
-
-  if (!existeOperacao) {
-
-    alertaOperacao.style.display = "none";
-
-  }
-
+        if(btn.dataset.screen === screenId){
+            btn.classList.add("active");
+        }
+    });
 }
 
-// ============================
+navButtons.forEach(btn=>{
+
+    btn.addEventListener("click",()=>{
+
+        const screen = btn.dataset.screen;
+
+        if(screen === "mais"){
+
+            const menu = document.getElementById("moreMenu");
+
+            if(menu){
+                menu.classList.toggle("hidden");
+            }
+
+            return;
+        }
+
+        const menu = document.getElementById("moreMenu");
+
+        if(menu){
+            menu.classList.add("hidden");
+        }
+
+        showScreen(screen);
+
+    });
+
+});
+
+document.querySelectorAll("[data-screen-go]").forEach(btn=>{
+
+    btn.addEventListener("click",()=>{
+
+        const target = btn.dataset.screenGo;
+
+        showScreen(target);
+
+        const menu = document.getElementById("moreMenu");
+
+        if(menu){
+            menu.classList.add("hidden");
+        }
+
+    });
+
+});
+
+// ======================
 // PASSEIOS
-// ============================
+// ======================
 
 let passeios = [];
 
-window.adicionarPasseio = function() {
+const adicionarPasseioBtn =
+document.getElementById("adicionarPasseio");
 
-  const roteiro = prompt(
-    "Digite o nome do passeio:"
-  );
+if(adicionarPasseioBtn){
 
-  if (!roteiro) return;
+    adicionarPasseioBtn.addEventListener("click",()=>{
 
-  passeios.push({
-    nome: roteiro
-  });
+        const nome = prompt(
+            "Digite o nome do passeio:"
+        );
 
-  atualizarPasseios();
+        if(!nome) return;
 
-};
+        passeios.push(nome);
 
-function atualizarPasseios() {
+        renderPasseios();
 
-  const container =
-    document.getElementById("listaPasseios");
-
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  passeios.forEach((passeio, index) => {
-
-    container.innerHTML += `
-      <div class="item-card">
-        <strong>${passeio.nome}</strong>
-
-        <button
-          onclick="removerPasseio(${index})"
-          class="mini-delete"
-        >
-          ✖
-        </button>
-      </div>
-    `;
-
-  });
+    });
 
 }
 
-window.removerPasseio = function(index) {
+function renderPasseios(){
 
-  passeios.splice(index, 1);
+    const lista =
+    document.getElementById("listaPasseios");
 
-  atualizarPasseios();
+    if(!lista) return;
 
-};
+    lista.innerHTML = "";
 
-// ============================
+    passeios.forEach((item,index)=>{
+
+        lista.innerHTML += `
+        <div class="item">
+            ${item}
+        </div>
+        `;
+
+    });
+
+}
+
+// ======================
 // TRANSLADOS
-// ============================
+// ======================
 
 let translados = [];
 
-window.adicionarTranslado = function() {
+const adicionarTransladoBtn =
+document.getElementById("adicionarTranslado");
 
-  const translado = prompt(
-    "Digite o translado:"
-  );
+if(adicionarTransladoBtn){
 
-  if (!translado) return;
+    adicionarTransladoBtn.addEventListener("click",()=>{
 
-  translados.push({
-    nome: translado
-  });
+        const nome = prompt(
+            "Digite o translado:"
+        );
 
-  atualizarTranslados();
+        if(!nome) return;
 
-};
+        translados.push(nome);
 
-function atualizarTranslados() {
+        renderTranslados();
 
-  const container =
-    document.getElementById("listaTranslados");
-
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  translados.forEach((item, index) => {
-
-    container.innerHTML += `
-      <div class="item-card">
-        <strong>${item.nome}</strong>
-
-        <button
-          onclick="removerTranslado(${index})"
-          class="mini-delete"
-        >
-          ✖
-        </button>
-      </div>
-    `;
-
-  });
+    });
 
 }
 
-window.removerTranslado = function(index) {
+function renderTranslados(){
 
-  translados.splice(index, 1);
+    const lista =
+    document.getElementById("listaTranslados");
 
-  atualizarTranslados();
+    if(!lista) return;
 
-};
+    lista.innerHTML = "";
 
-// ============================
-// PRÉVIA VOUCHER
-// ============================
+    translados.forEach(item=>{
 
-window.visualizarVoucher = function() {
+        lista.innerHTML += `
+        <div class="item">
+            ${item}
+        </div>
+        `;
 
-  const nome =
-    document.getElementById("clienteNome")
-      ?.value || "Sem nome";
+    });
 
-  const passageiros =
-    document.getElementById("totalPassageiros")
-      ?.value || "0";
+}
 
-  let listaPasseios = "";
+// ======================
+// PRÉVIA DO VOUCHER
+// ======================
 
-  passeios.forEach(item => {
+const previewBtn =
+document.getElementById("previewVoucher");
 
-    listaPasseios += `• ${item.nome}\n`;
+if(previewBtn){
 
-  });
+    previewBtn.addEventListener("click",()=>{
 
-  let listaTranslados = "";
+        const nome =
+        document.getElementById("clienteNome")?.value || "";
 
-  translados.forEach(item => {
+        const passageiros =
+        document.getElementById("totalPassageiros")?.value || "";
 
-    listaTranslados += `• ${item.nome}\n`;
+        let passeiosHtml =
+        passeios.length
+        ? passeios.join("<br>")
+        : "Nenhum";
 
-  });
+        let transladosHtml =
+        translados.length
+        ? translados.join("<br>")
+        : "Nenhum";
 
-  alert(
-`
-========================
+        const popup = document.createElement("div");
 
-PRÉVIA DO VOUCHER
+        popup.className = "popup";
 
-========================
+        popup.innerHTML = `
+        <div class="popup-card preview-card">
 
-Cliente:
-${nome}
+            <h2>Prévia do Voucher</h2>
 
-Passageiros:
-${passageiros}
+            <p><strong>Cliente:</strong> ${nome}</p>
 
-Passeios:
-${listaPasseios || "Nenhum"}
+            <p>
+            <strong>Passageiros:</strong>
+            ${passageiros}
+            </p>
 
-Translados:
-${listaTranslados || "Nenhum"}
+            <hr><br>
 
-========================
-`
-  );
+            <p>
+            <strong>Passeios:</strong>
+            <br>
+            ${passeiosHtml}
+            </p>
 
-};
+            <br>
 
-// ============================
-// FORM VOUCHER
-// ============================
+            <p>
+            <strong>Translados:</strong>
+            <br>
+            ${transladosHtml}
+            </p>
 
-const voucherForm =
-  document.getElementById("voucherForm");
+            <button id="fecharPreview">
+            Fechar
+            </button>
 
-if (voucherForm) {
+        </div>
+        `;
 
-  voucherForm.addEventListener(
-    "submit",
-    function(e) {
+        document.body.appendChild(popup);
 
-      e.preventDefault();
+        document
+        .getElementById("fecharPreview")
+        .onclick = ()=>{
 
-      alert(
-        "Voucher salvo com sucesso!"
-      );
+            popup.remove();
+
+        };
+
+    });
+
+}
+
+// ======================
+// POPUP OPERAÇÃO
+// ======================
+
+function mostrarOperacao(){
+
+    const popup = document.createElement("div");
+
+    popup.className = "popup";
+
+    popup.innerHTML = `
+    <div class="popup-card">
+
+        <h2>🔔 Próxima Operação</h2>
+
+        <p>
+        Você possui uma operação agendada.
+        </p>
+
+        <button id="fecharOperacao">
+        Entendi
+        </button>
+
+    </div>
+    `;
+
+    document.body.appendChild(popup);
+
+    document
+    .getElementById("fecharOperacao")
+    .onclick = ()=>{
+
+        popup.remove();
+
+    };
+
+}
+
+const fecharAlerta =
+document.getElementById("fecharAlerta");
+
+if(fecharAlerta){
+
+    fecharAlerta.onclick = ()=>{
+
+        document
+        .querySelector(".alert-card")
+        ?.remove();
+
+    };
+
+}
+
+// ======================
+// SOM
+// ======================
+
+function tocarSom(){
+
+    try{
+
+        const audio =
+        new Audio(
+            "https://actions.google.com/sounds/v1/alarms/beep_short.ogg"
+        );
+
+        audio.play();
+
+    }catch(e){}
+
+}
+
+// ======================
+// INICIALIZAÇÃO
+// ======================
+
+setTimeout(()=>{
+
+    const possuiOperacao = false;
+
+    if(possuiOperacao){
+
+        mostrarOperacao();
+
+        tocarSom();
 
     }
-  );
 
-      }
+},1500);
