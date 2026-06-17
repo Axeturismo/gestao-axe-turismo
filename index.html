@@ -8,14 +8,6 @@
 </head>
 
 <body>
-  <div id="operationPopup" class="popup hidden">
-    <div class="popup-card">
-      <h2>🔔 Próxima operação</h2>
-      <p id="popupMessage">Você tem uma operação programada.</p>
-      <button id="closePopup">Entendi</button>
-    </div>
-  </div>
-
   <div class="app">
     <header class="top-header">
       <img class="top-logo" src="./logo-axe.png" alt="Logo Axé Turismo">
@@ -27,14 +19,14 @@
 
     <main class="content">
 
+      <!-- INÍCIO -->
       <section id="inicio" class="screen active">
         <div id="operationAlert" class="card alert-card hidden">
           <h2>🔔 Próxima operação</h2>
           <p id="operationAlertText"></p>
           <div class="actions">
-            <button>Ver lembrete</button>
-            <button class="secondary">Conferido</button>
-            <button id="closeOperationAlert" class="ghost">Fechar</button>
+            <button>Ver operação</button>
+            <button class="ghost">Fechar</button>
           </div>
         </div>
 
@@ -62,16 +54,17 @@
         </div>
       </section>
 
+      <!-- VOUCHER -->
       <section id="voucher" class="screen">
         <div class="page-title">
           <h2>🎫 Novo Voucher</h2>
-          <p>Monte o voucher por etapas, de forma limpa e organizada.</p>
+          <p>Monte o voucher por partes, sem bagunça.</p>
         </div>
 
         <form id="voucherForm">
 
           <div class="form-card">
-            <h3>1. Dados do cliente</h3>
+            <h3>1. Cliente</h3>
 
             <label>Nome do cliente</label>
             <input type="text" id="clienteNome" placeholder="Ex: João Silva" required>
@@ -79,8 +72,8 @@
             <label>CPF</label>
             <input type="text" id="clienteCpf" placeholder="Opcional">
 
-            <label>Contato</label>
-            <input type="text" id="clienteContato" placeholder="WhatsApp do cliente">
+            <label>Contato / WhatsApp</label>
+            <input type="text" id="clienteContato" placeholder="Ex: (73) 99999-9999">
 
             <label>Total de passageiros</label>
             <input type="number" id="totalPassageiros" min="1" value="1">
@@ -93,52 +86,12 @@
           </div>
 
           <div class="form-card">
-            <div class="section-header">
-              <div>
-                <h3>2. Passeios contratados</h3>
-                <p>Adicione um ou mais passeios ao voucher.</p>
-              </div>
-            </div>
+            <h3>2. Passeios contratados</h3>
+            <p class="muted">Nenhum passeio vem selecionado. Adicione apenas o que o cliente contratou.</p>
 
-            <button type="button" id="addPasseioBtn" class="full-button">➕ Adicionar passeio</button>
-
-            <div id="passeioBox" class="mini-form hidden">
-              <label>Roteiro</label>
-              <select id="roteiroSelecionado">
-                <option value="">Selecione um roteiro</option>
-                <option>Jeribucaçu</option>
-                <option>Trilha 4 Praias</option>
-                <option>Trilha da Prainha</option>
-                <option>Rafting</option>
-                <option>Cachoeira do Cleandro</option>
-                <option>City Tour Ilhéus</option>
-                <option>Fazenda Vila Rosa</option>
-                <option>Morro de São Paulo</option>
-                <option>Ilha de Boipeba</option>
-                <option>Passeio das Ilhas sem Taipu de Fora</option>
-                <option>Passeio das Ilhas com Taipu de Fora</option>
-              </select>
-
-              <label>Data do passeio</label>
-              <input type="date" id="dataPasseio">
-
-              <label>Quantidade de passageiros</label>
-              <input type="number" id="qtdPasseio" min="1" value="1">
-
-              <label>Pagamento deste passeio</label>
-              <select id="formaPagamentoPasseio">
-                <option>Pix</option>
-                <option>Dinheiro</option>
-                <option>Cartão de débito</option>
-                <option>Cartão de crédito</option>
-                <option>Pagamento individual</option>
-              </select>
-
-              <label>Detalhes do pagamento</label>
-              <textarea id="detalhesPagamentoPasseio" placeholder="Ex: 2 no cartão, 1 no Pix"></textarea>
-
-              <button type="button" id="confirmarPasseioBtn">Adicionar à lista</button>
-            </div>
+            <button type="button" class="full-button" onclick="adicionarPasseio()">
+              ➕ Adicionar passeio
+            </button>
 
             <div id="listaPasseios" class="item-list">
               <p class="muted">Nenhum passeio adicionado ainda.</p>
@@ -147,31 +100,11 @@
 
           <div class="form-card">
             <h3>3. Translados</h3>
-            <p class="muted">Adicione translados somente se houver.</p>
+            <p class="muted">Adicione translado somente se houver.</p>
 
-            <button type="button" id="addTransladoBtn" class="full-button">➕ Adicionar translado</button>
-
-            <div id="transladoBox" class="mini-form hidden">
-              <label>Origem</label>
-              <input id="transladoOrigem" placeholder="Ex: Aeroporto de Ilhéus">
-
-              <label>Destino</label>
-              <input id="transladoDestino" placeholder="Ex: Pousada em Itacaré">
-
-              <label>Data</label>
-              <input type="date" id="transladoData">
-
-              <label>Horário</label>
-              <input type="time" id="transladoHorario">
-
-              <label>Voo</label>
-              <input id="transladoVoo" placeholder="Opcional">
-
-              <label>Valor</label>
-              <input type="number" id="transladoValor" placeholder="0,00">
-
-              <button type="button" id="confirmarTransladoBtn">Adicionar translado</button>
-            </div>
+            <button type="button" class="full-button" onclick="adicionarTranslado()">
+              ➕ Adicionar translado
+            </button>
 
             <div id="listaTranslados" class="item-list">
               <p class="muted">Nenhum translado adicionado ainda.</p>
@@ -179,7 +112,19 @@
           </div>
 
           <div class="form-card">
-            <h3>4. Pagamento geral</h3>
+            <h3>4. Pagamento</h3>
+
+            <label>Forma de pagamento geral</label>
+            <select id="formaPagamento">
+              <option>Pix</option>
+              <option>Dinheiro</option>
+              <option>Cartão de débito</option>
+              <option>Cartão de crédito em até 12x</option>
+              <option>Pagamento individual</option>
+            </select>
+
+            <label>Detalhes do pagamento individual</label>
+            <textarea id="detalhesPagamento" placeholder="Ex: 2 passageiros no cartão, 1 no Pix, 1 no dinheiro"></textarea>
 
             <label>Status do pagamento</label>
             <select id="statusPagamento">
@@ -192,14 +137,20 @@
             <label>Valor pago</label>
             <input type="number" id="valorPago" placeholder="0,00">
 
-            <label>Observações</label>
-            <textarea id="observacoesVoucher" placeholder="Observações opcionais"></textarea>
+            <label>Saldo restante</label>
+            <input type="number" id="saldoRestante" placeholder="0,00">
           </div>
 
           <div class="form-card">
-            <h3>5. Finalização</h3>
+            <h3>5. Observações</h3>
+            <textarea id="observacoesVoucher" placeholder="Observações opcionais. Só aparecerão no voucher se preenchidas."></textarea>
+          </div>
+
+          <div class="form-card">
+            <h3>6. Finalização</h3>
+
             <div class="actions vertical">
-              <button type="button" id="previewVoucherBtn">👁 Prévia do voucher</button>
+              <button type="button" onclick="visualizarVoucher()">👁 Prévia do voucher</button>
               <button type="submit">💾 Salvar voucher</button>
               <button type="button" class="secondary">📄 Gerar PDF</button>
             </div>
@@ -208,6 +159,7 @@
         </form>
       </section>
 
+      <!-- SAÍDAS -->
       <section id="saidas" class="screen">
         <div class="page-title">
           <h2>📋 Saídas do dia</h2>
@@ -223,6 +175,7 @@
         </div>
       </section>
 
+      <!-- FINANCEIRO -->
       <section id="financeiro" class="screen">
         <div class="page-title">
           <h2>💰 Financeiro</h2>
@@ -237,6 +190,7 @@
         </div>
       </section>
 
+      <!-- VEÍCULOS -->
       <section id="veiculos" class="screen">
         <div class="page-title">
           <h2>🚗 Veículos</h2>
@@ -268,6 +222,7 @@
         </div>
       </section>
 
+      <!-- COLABORADORES -->
       <section id="colaboradores" class="screen">
         <div class="page-title">
           <h2>👥 Colaboradores</h2>
@@ -288,6 +243,7 @@
         </div>
       </section>
 
+      <!-- CLIENTES -->
       <section id="clientes" class="screen">
         <div class="page-title">
           <h2>👤 Clientes</h2>
@@ -300,6 +256,7 @@
         </div>
       </section>
 
+      <!-- GASTOS -->
       <section id="gastos" class="screen">
         <div class="page-title">
           <h2>🧾 Gastos</h2>
@@ -320,6 +277,7 @@
         </div>
       </section>
 
+      <!-- CONFIGURAÇÕES -->
       <section id="configuracoes" class="screen">
         <div class="page-title">
           <h2>⚙️ Configurações</h2>
@@ -352,4 +310,4 @@
 
   <script src="./app.js"></script>
 </body>
-  </html>
+</html>
