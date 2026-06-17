@@ -1,23 +1,97 @@
-console.log("Gestão Axé Turismo e Aventura iniciado.");
-
 document.addEventListener("DOMContentLoaded", () => {
-  const navButtons = document.querySelectorAll(".nav-item");
-  const screens = document.querySelectorAll(".screen");
 
-  navButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const targetScreen = button.getAttribute("data-screen");
+const screens = document.querySelectorAll(".screen");
+const navButtons = document.querySelectorAll(".nav-item");
+const moreMenu = document.getElementById("moreMenu");
 
-      screens.forEach((screen) => {
-        screen.classList.remove("active");
-      });
+function abrirTela(id) {
 
-      navButtons.forEach((nav) => {
-        nav.classList.remove("active");
-      });
+screens.forEach(screen => {
+screen.classList.remove("active");
+});
 
-      document.getElementById(targetScreen).classList.add("active");
-      button.classList.add("active");
-    });
-  });
+const tela = document.getElementById(id);
+
+if(tela){
+tela.classList.add("active");
+}
+
+navButtons.forEach(btn => {
+btn.classList.remove("active");
+
+if(btn.dataset.screen === id){
+btn.classList.add("active");
+}
+});
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+}
+
+navButtons.forEach(btn => {
+
+btn.addEventListener("click", () => {
+
+const tela = btn.dataset.screen;
+
+if(tela === "mais"){
+
+moreMenu.classList.toggle("hidden");
+
+return;
+}
+
+moreMenu.classList.add("hidden");
+
+abrirTela(tela);
+
+});
+
+});
+
+document.querySelectorAll("[data-screen-go]").forEach(btn => {
+
+btn.addEventListener("click", () => {
+
+const tela = btn.dataset.screenGo;
+
+moreMenu.classList.add("hidden");
+
+abrirTela(tela);
+
+});
+
+});
+
+const voucherForm = document.getElementById("voucherForm");
+
+if(voucherForm){
+
+voucherForm.addEventListener("submit", (e) => {
+
+e.preventDefault();
+
+const nome =
+document.getElementById("clienteNome").value;
+
+if(!nome){
+
+alert("Informe o nome do cliente.");
+
+return;
+
+}
+
+alert(
+"Voucher salvo localmente.\n\nNa próxima etapa vamos conectar ao Supabase."
+);
+
+voucherForm.reset();
+
+});
+
+}
+
 });
